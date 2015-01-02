@@ -27,7 +27,6 @@ public class UnsafeHttpsClient {
 					builder.build());
 			CloseableHttpClient httpclient = HttpClients.custom()
 					.setSSLSocketFactory(sslsf).build();
-
 			return httpclient;
 		} catch (Exception e) {
 			throw new RuntimeException(e);

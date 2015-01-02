@@ -1,12 +1,25 @@
 package com.beiluoshimen.securityguard.market;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
+import java.net.HttpURLConnection;
 import java.net.URL;
+import java.security.KeyStore;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
+
+import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.KeyManagerFactory;
+import javax.net.ssl.ManagerFactoryParameters;
+import javax.net.ssl.SSLContext;
+
+import org.apache.http.conn.ssl.SSLContextBuilder;
 
 import retrofit.RestAdapter;
 import retrofit.RestAdapter.LogLevel;
@@ -15,6 +28,7 @@ import retrofit.client.ApacheClient;
 import com.beiluoshimen.securityguard.R;
 import com.beiluoshimen.securityguard.slideingmenu.BaseActivity;
 import com.beiluoshimen.securityguard.tools.DensityUtil;
+import com.beiluoshimen.securityguard.tools.ZipTools;
 import com.dk.animation.SwitchAnimationUtil;
 import com.dk.animation.SwitchAnimationUtil.AnimationType;
 
@@ -74,7 +88,7 @@ public class MarketActivity extends BaseActivity implements OnClickListener{
 	
     protected static DlSvcApi dlService = new RestAdapter.Builder()
     .setClient(new ApacheClient(UnsafeHttpsClient.createUnsafeClient()))
-    .setEndpoint(TEST_URL).setLogLevel(LogLevel.NONE).build()
+    .setEndpoint(TEST_URL).setLogLevel(LogLevel.FULL).build()
     .create(DlSvcApi.class);
     
 	
@@ -99,6 +113,7 @@ public class MarketActivity extends BaseActivity implements OnClickListener{
 	private static final int BUY_CHARACTER_FAILURE_ALREADY_HAVE = 7;
 	private static final int DL_CHARACTER_FAILURE = 8;
 	private static final int DL_CHARACTER_SUCCESS = 9;
+	private static final int INSTALL_CHARACTER_SUCCESS = 10;
 	
 	
 	private TextView tv_coin;
@@ -286,55 +301,74 @@ public class MarketActivity extends BaseActivity implements OnClickListener{
 				super.run();
 				Message msg = Message.obtain();
 				try {
-					DlData data;
-					if ( (data = dlService.dlCharacter(clickedNo)) !=null) {
-						Log.d(TAG, "Download Success.");
-						Log.d(TAG, "Download Success.");
-						Log.d(TAG, "Download Success.");
-						Log.d(TAG, "Download Success.");
-						Log.d(TAG, "Download Success.");
-						Log.d(TAG, "Download Success.");
-
-						//getDLData ....
-						System.out.println(data.getZipData());
-						System.out.println(data.getZipData());
-						System.out.println(data.getZipData());
-						System.out.println(data.getZipData());
-//						
-//						File sdCard = Environment.getExternalStorageDirectory();
-//						File dir = new File (sdCard.getAbsolutePath() + "/SecurityGuard/dl");
-//						dir.mkdirs();
-//						File file = new File(dir, "100.zip");
-//						FileOutputStream f = getApplicationContext().openFileOutput("123.zip",Context.MODE_PRIVATE);
-//						f.write(data.getZipData());
-//						f.flush();
-//						f.close();
-						
-						msg.what = DL_CHARACTER_SUCCESS;
-					}else {
-						//server return null, this character doesn't exist.
+					URL url;
+					switch (clickedNo) {
+					case 100:
+						url = new URL(TEST_URL+DlSvcApi.DL_100_PATH);
+						break;
+					case 101:
+						url = new URL(TEST_URL+DlSvcApi.DL_101_PATH);
+						break;
+					case 102:
+						url = new URL(TEST_URL+DlSvcApi.DL_102_PATH);
+						break;
+					case 103:
+						url = new URL(TEST_URL+DlSvcApi.DL_103_PATH);
+						break;
+					default:
 						msg.what = DL_CHARACTER_FAILURE;
-						Log.d(TAG, "Download Failure.");
-						Log.d(TAG, "Download Failure.");
-						Log.d(TAG, "Download Failure.");
-						Log.d(TAG, "Download Failure.");
-						Log.d(TAG, "Download Failure.");
+						handler.sendMessage(msg);
+						return;
 					}
-				} catch (Exception e) {
-					//newtwork error
-					e.printStackTrace();
-					msg.what = DL_CHARACTER_FAILURE;
-					Log.d(TAG, "Download exception.");
-					Log.d(TAG, "Download exception.");
-					Log.d(TAG, "Download exception.");
-					Log.d(TAG, "Download exception.");
-				}
-				handler.sendMessage(msg);
+//					WARNING !!! 
+//					THIS SHOULD BE FIXED IF WE REALLY NEED TO PUT THIS APP ON THE MARKET
+//					TODO
+					UnsafeSSLSettings.trustAllHosts();
+					HttpsURLConnection conn = (HttpsURLConnection) url.openConnection();
+					conn.setHostnameVerifier(UnsafeSSLSettings.DO_NOT_VERIFY);
+					conn.setConnectTimeout(20000);
+					
+					File file = new File(Environment.getExternalStorageDirectory()+"/"+clickedNo+".zip");
+					if (file.exists() && file.isFile()) {
+						file.delete();
+					}
+					System.out.println("here1");
+					BufferedInputStream in = new BufferedInputStream(conn.getInputStream());
+					System.out.println("here3");
+					BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(file));
+					System.out.println("here2");
+					byte []buffer = new byte[1024];
+					int read = 0;
+					while ( (read = in.read(buffer)) > 0 ) {
+						out.write(buffer, 0, read);
+						System.out.println("READ:"+read+"\n");
+					}
+					out.close();
+					in.close();
+					msg.what = DL_CHARACTER_SUCCESS;
+					System.out.println("dl success");
+					}catch(Exception e){
+						e.printStackTrace();
+						msg.what = DL_CHARACTER_FAILURE;
+					}finally{
+						handler.sendMessage(msg);
+						if (msg.what == DL_CHARACTER_SUCCESS) {
+							try {
+								ZipTools.unzip(
+										Environment.getExternalStorageDirectory().toString()+"/"+clickedNo+".zip",
+										Environment.getExternalStorageDirectory().toString()+"/"+clickedNo+"/");
+								msg.what = INSTALL_CHARACTER_SUCCESS;
+								handler.sendMessage(msg);
+							} catch (IOException e) {
+								e.printStackTrace();
+							}
+						}
+						
+					}
 			}
-		}.start();
-		
-		
+		}.start();	
 	}
+		
 	private void dismissPopupWindow() {
 		if (popupWindow != null && popupWindow.isShowing()) {
 			popupWindow.dismiss();
@@ -443,11 +477,18 @@ public class MarketActivity extends BaseActivity implements OnClickListener{
 				Toast.makeText(MarketActivity.this, "You already have this character!", Toast.LENGTH_SHORT).show();
 				break;
 			case DL_CHARACTER_SUCCESS:
-				Toast.makeText(MarketActivity.this, "Successfullly dl character!", Toast.LENGTH_SHORT).show();
+				Toast.makeText(MarketActivity.this, "Successfullly dl character!\n"
+						+ "start decompressing data...\n"
+						+ "installing...", Toast.LENGTH_SHORT).show();
+				
 				break;
 			case DL_CHARACTER_FAILURE:
 				Toast.makeText(MarketActivity.this, "Fail to dl character!", Toast.LENGTH_SHORT).show();
-				break;				
+				break;
+			case INSTALL_CHARACTER_SUCCESS:
+				Toast.makeText(MarketActivity.this, "Install new character successfully!!", Toast.LENGTH_SHORT).show();
+				break;
+				
 			}
 		};
 	};
