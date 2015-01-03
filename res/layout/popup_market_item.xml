@@ -22,7 +22,7 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/burn_file" />
+            android:src="@drawable/open" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -31,28 +31,7 @@
             android:textColor="#AAAAAA" />
     </LinearLayout>
 
-    <LinearLayout
-        android:paddingLeft="1dp"
-        android:id="@+id/ll_popup_dl"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="5dip"
-        android:gravity="center_horizontal"
-        android:orientation="vertical" >
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-           android:paddingTop="3dp"
-            android:src="@drawable/open" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/popup_market_download"
-            android:paddingTop="1dp"
-            android:textColor="#AAAAAA" />
-    </LinearLayout>
+   
 
 
 </LinearLayout>

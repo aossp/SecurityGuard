@@ -1,6 +1,8 @@
 package com.beiluoshimen.securityguard.moe;
 
 
+import java.util.ArrayList;
+
 import com.beiluoshimen.securityguard.R;
 import com.beiluoshimen.securityguard.slideingmenu.BaseActivity;
 
@@ -14,14 +16,49 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.text.format.Formatter;
 import android.util.Log;
+import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
+import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
 
 public class MoeApplication extends BaseActivity
 {
+	private final String TAG = "MoeApplication";
+	@Override
+	protected void onRestart() {
+		// TODO Auto-generated method stub
+		super.onRestart();
+		Log.d(TAG, "onrestart");
+	}
+	
+	@Override
+	protected void onStart() {
+		Log.d(TAG, "onstart");
+		// TODO Auto-generated method stub
+		super.onStart();
+		
+	}
+	
+	@Override
+	protected void onStop() {
+		// TODO Auto-generated method stub
+		super.onStop();
+	}
+	
+	@Override
+	protected void onResumeFragments() {
+		// TODO Auto-generated method stub
+		super.onResumeFragments();
+		live2DMgr.updateList();
+		Log.d(TAG, "onresumefragments");
+	}
+	
+	
 	private LAppLive2DManager live2DMgr ;
 	static private Activity instance;
 	
@@ -48,6 +85,9 @@ public class MoeApplication extends BaseActivity
 				
 			}	
 	
+	//GUI
+	
+	private ImageButton btn_change_model;
 	
 	public MoeApplication(){
 		super(R.string.title_secure_niang);
@@ -91,7 +131,7 @@ public class MoeApplication extends BaseActivity
     public void onCreate(Bundle savedInstanceState)
 	{
         super.onCreate(savedInstanceState);
-        
+		Log.d(TAG, "onCreate");
 //        requestWindowFeature(Window.FEATURE_NO_TITLE);
         
         
@@ -117,8 +157,21 @@ public class MoeApplication extends BaseActivity
 //      		};
 //      	}.start();
 		
+		//always update the list of user'scharacters in oncreate.
+		live2DMgr.updateList();
 		
     }
+	
+
+
+	class ClickListener implements OnClickListener{
+
+		@Override
+		public void onClick(View v) {
+			Toast.makeText(getApplicationContext(), "Change model", Toast.LENGTH_SHORT).show();
+			live2DMgr.changeModel();//Live2D Event
+		}
+	}
 	
 	public void showCleanText(int count,long memsize){
 		Toast.makeText(MoeApplication.this,"Kill" + count + "process(s),release" +
@@ -136,17 +189,18 @@ public class MoeApplication extends BaseActivity
 	{
     	setContentView(R.layout.activity_main);
 
-        
         LAppView view = live2DMgr.createView(this) ;
         FrameLayout layout=(FrameLayout) findViewById(R.id.live2DLayout);
 		layout.addView(view, 0, new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
 
+		btn_change_model = (ImageButton) findViewById(R.id.btn_change_model);
+		btn_change_model.setOnClickListener(new ClickListener());
 	}
 
 
 
 
-
+	
 	
 	@Override
 	protected void onResume()

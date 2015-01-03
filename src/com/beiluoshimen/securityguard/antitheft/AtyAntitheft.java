@@ -1,10 +1,14 @@
 package com.beiluoshimen.securityguard.antitheft;
 
+import java.util.List;
+
 import com.beiluoshimen.securityguard.R;
 import com.beiluoshimen.securityguard.slideingmenu.BaseActivity;
 import com.beiluoshimen.securityguard.tools.MD5Tools;
 import com.dk.animation.SwitchAnimationUtil;
 import com.dk.animation.SwitchAnimationUtil.AnimationType;
+import com.google.common.base.Functions;
+import com.google.common.collect.Lists;
 import com.jeremyfeinstein.slidingmenu.lib.app.SlidingActivityBase;
 
 import android.app.Activity;

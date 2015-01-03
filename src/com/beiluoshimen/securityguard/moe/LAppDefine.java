@@ -11,6 +11,32 @@ package com.beiluoshimen.securityguard.moe;
 public class LAppDefine
 {
 	
+	public static String noToPath(String no) {
+		switch (no) {
+		case "100":
+			return MODEL_HARU;
+		case "101":
+			return MODEL_SHIZUKU;
+		case "102":
+			return MODEL_WANKO;
+		case "103":
+			return MODEL_HARU_A;
+		case "104":
+			return MODEL_HARU_A;
+		case "105":
+			return MODEL_HARU_A;
+		case "106":
+			return MODEL_HARU_A;
+		case "107":
+			return MODEL_HARU_A;
+		case "108":
+			return MODEL_HARU_A;
+		default:
+			return MODEL_HARU;
+		}
+	}
+	
+	
 	public static boolean DEBUG_LOG=true;
 	public static boolean DEBUG_TOUCH_LOG=false;
 	public static boolean DEBUG_DRAW_HIT_AREA=false;
@@ -56,5 +82,8 @@ public class LAppDefine
 	public static final int PRIORITY_IDLE		= 1;
 	public static final int PRIORITY_NORMAL		= 2;
 	public static final int PRIORITY_FORCE		= 3;
+	
+	
+	
 
 }

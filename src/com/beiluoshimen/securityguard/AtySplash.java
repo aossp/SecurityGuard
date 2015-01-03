@@ -1,12 +1,16 @@
 package com.beiluoshimen.securityguard;
 
+import java.util.HashSet;
+import java.util.Set;
 import com.beiluoshimen.securityguard.market.MarketActivity;
 import com.beiluoshimen.securityguard.moe.MoeApplication;
 import com.beiluoshimen.securityguard.settings.AtySettings;
-
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
@@ -25,11 +29,27 @@ import android.widget.TextView;
  * @author Hsieh Yu-Hua
  * @date 2014年11月12日下午2:11:30
  */
+@SuppressLint("NewApi")
 public class AtySplash extends Activity{
 	private TextView tv_version;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
+		
+//		//the user always has 100 character;
+//		SharedPreferences sp = getSharedPreferences("USER_CHARACTERS",MODE_PRIVATE);
+//		Set<String> set = sp.getStringSet("SET",null);
+//		if (set == null || set.isEmpty()) {
+//			Editor editor = sp.edit();
+//			HashSet<String> hashset = new HashSet<String>();
+//			hashset.add("100");
+//			editor.putStringSet("SET", hashset);
+//			editor.commit();
+//		}else {
+//			//do nothing
+//		}
+//		
 		
 //		set as no title
 		requestWindowFeature(Window.FEATURE_NO_TITLE);

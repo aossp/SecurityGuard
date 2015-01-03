@@ -7,18 +7,34 @@
 package com.beiluoshimen.securityguard.moe;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
 
 import javax.microedition.khronos.opengles.GL10;
+
+
+
+
+
+
+
 
 
 import jp.live2d.Live2D;
 import jp.live2d.framework.L2DViewMatrix;
 import jp.live2d.framework.Live2DFramework;
+import android.R.integer;
+import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.os.Looper;
 import android.util.Log;
 
 
+@SuppressLint("NewApi")
 public class LAppLive2DManager 
 {
 
@@ -27,16 +43,17 @@ public class LAppLive2DManager
 	private MemInfo memInfo;
 	
 
-	static public final String 	TAG = "SampleLive2DManager";
+	static public final String 	TAG = "Live2DManager";
 	private LAppView 				view;						
 	
 	private ArrayList<LAppModel>	models;
 
 	private boolean 				reloadFlg;					
-//	private int 					modelCount		=-1;
+	private int 					modelCount		=-1;
 
-	
-
+	//this set contains the characters we have . e.g[100,101,104]
+	private List<String> list;
+	private SharedPreferences sp;
 	public LAppLive2DManager(MoeApplication moeApplication)
 	{
 		Live2D.init();
@@ -46,9 +63,24 @@ public class LAppLive2DManager
 		
 		this.moeApplication = moeApplication;
 		
+		
 	}
 	
-
+/**
+ * this should be called when the user buy new character.
+ */
+	public void updateList(){
+		sp = moeApplication.getSharedPreferences("USER_CHARACTERS",moeApplication.MODE_PRIVATE);
+		Set<String> set = sp.getStringSet("SET",null);
+		if (set == null || set.isEmpty()) {
+			Log.d(TAG, "the sp is null");
+			list = new ArrayList<String>();
+			//the default character (do not need to buy.)
+			list.add("100");
+		}else {
+			list = new ArrayList<String>(set);
+		}
+	}
 
 
 	public void releaseModel()
@@ -72,13 +104,82 @@ public class LAppLive2DManager
 			reloadFlg=false;
 			try {
 
-				releaseModel();
-				models.add(new LAppModel());
-				models.get(0).load(gl, LAppDefine.MODEL_HARU);
-				models.get(0).feedIn();
+//				sp = moeApplication.getSharedPreferences("USER_CHARACTERS",moeApplication.MODE_PRIVATE);
+//				set = sp.getStringSet("SET", null);
+				int size = list.size();
+				switch (modelCount % size) {
+				case 0:
+					releaseModel();
+					models.add(new LAppModel());
+					models.get(0).load(gl, LAppDefine.noToPath(list.get(0)));
+					models.get(0).feedIn();
+					break;
+				case 1:
+					releaseModel();
+					models.add(new LAppModel());
+					models.get(0).load(gl, LAppDefine.noToPath(list.get(1)));
+					models.get(0).feedIn();
+					break;
+				case 2:
+					releaseModel();
+					models.add(new LAppModel());
+					models.get(0).load(gl, LAppDefine.noToPath(list.get(2)));
+					models.get(0).feedIn();
+					break;
+				case 3:
+					releaseModel();
+					models.add(new LAppModel());
+					models.get(0).load(gl, LAppDefine.noToPath(list.get(3)));
+					models.get(0).feedIn();
+					break;
+				case 4:
+					releaseModel();
+					models.add(new LAppModel());
+					models.get(0).load(gl, LAppDefine.noToPath(list.get(4)));
+					models.get(0).feedIn();
+					break;
+				case 5:
+					releaseModel();
+					models.add(new LAppModel());
+					models.get(0).load(gl, LAppDefine.noToPath(list.get(5)));
+					models.get(0).feedIn();
+					break;
+				case 6:
+					releaseModel();
+					models.add(new LAppModel());
+					models.get(0).load(gl, LAppDefine.noToPath(list.get(6)));
+					models.get(0).feedIn();
+					break;
+				case 7:
+					releaseModel();
+					models.add(new LAppModel());
+					models.get(0).load(gl, LAppDefine.noToPath(list.get(7)));
+					models.get(0).feedIn();
+					break;
+				case 8:
+					releaseModel();
+					models.add(new LAppModel());
+					models.get(0).load(gl, LAppDefine.noToPath(list.get(8)));
+					models.get(0).feedIn();
+					break;
+				case 9:
+					releaseModel();
+					models.add(new LAppModel());
+					models.get(0).load(gl, LAppDefine.noToPath(list.get(9)));
+					models.get(0).feedIn();
+					break;
+
+				default:
+					releaseModel();
+					models.add(new LAppModel());
+					models.get(0).load(gl, LAppDefine.noToPath(list.get(0)));
+					models.get(0).feedIn();
+					break;
 					
+					
+				}
 			} catch (Exception e) {
-				
+				e.printStackTrace();
 				Log.e(TAG,"Failed to load."+e.getStackTrace());
 				MoeApplication.exit();
 			}
@@ -152,7 +253,7 @@ public class LAppLive2DManager
 	public void changeModel()
 	{
 		reloadFlg=true;
-//		modelCount++;
+		modelCount++;
 	}
 
 

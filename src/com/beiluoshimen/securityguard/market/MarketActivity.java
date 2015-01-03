@@ -11,33 +11,35 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.security.KeyStore;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
-
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.KeyManagerFactory;
 import javax.net.ssl.ManagerFactoryParameters;
 import javax.net.ssl.SSLContext;
-
 import org.apache.http.conn.ssl.SSLContextBuilder;
-
 import retrofit.RestAdapter;
 import retrofit.RestAdapter.LogLevel;
 import retrofit.client.ApacheClient;
-
 import com.beiluoshimen.securityguard.R;
 import com.beiluoshimen.securityguard.slideingmenu.BaseActivity;
 import com.beiluoshimen.securityguard.tools.DensityUtil;
 import com.beiluoshimen.securityguard.tools.ZipTools;
 import com.dk.animation.SwitchAnimationUtil;
 import com.dk.animation.SwitchAnimationUtil.AnimationType;
-
+import com.google.common.base.Functions;
+import com.google.common.collect.Lists;
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.DialogInterface.OnCancelListener;
+import android.content.SharedPreferences.Editor;
+import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Environment;
@@ -106,8 +108,8 @@ public class MarketActivity extends BaseActivity implements OnClickListener{
 	//Handler 
 	private static final int LOAD_CHARACTERS_SUCCESS = 1;
 	private static final int LOAD_CHARACTERS_FAILURE = 2;
-	private static final int LOAD_USER_DATA_DONE = 3;
-	private static final int LOAD_ONE_PIC = 4;
+	private static final int LOAD_USER_DATA_SUCCESS = 3;
+	private static final int LOAD_USER_DATA_FAILURE = 11;
 	private static final int BUY_CHARACTER_SUCCESS = 5;
 	private static final int BUY_CHARACTER_FAILURE = 6;
 	private static final int BUY_CHARACTER_FAILURE_ALREADY_HAVE = 7;
@@ -115,15 +117,14 @@ public class MarketActivity extends BaseActivity implements OnClickListener{
 	private static final int DL_CHARACTER_SUCCESS = 9;
 	private static final int INSTALL_CHARACTER_SUCCESS = 10;
 	
-	
+	private TextView tv_freecoin;
 	private TextView tv_coin;
 	private ListView lv_chars;
 	private LinearLayout ll_load;//use to show progress bar
 	private ArrayList<Character> chars;
 	
-	//Popup window
 	private PopupWindow popupWindow;
-	private LinearLayout ll_buy,ll_dl;
+	private LinearLayout ll_buy;
 	
 	//alert dialog 
 	private AlertDialog dialog;
@@ -183,6 +184,8 @@ public class MarketActivity extends BaseActivity implements OnClickListener{
 //		set this property after UI update()
 //		setSlidingActionBarEnabled(false);
 		
+		tv_freecoin = (TextView) findViewById(R.id.tv_market_freecoin);
+		tv_freecoin.setOnClickListener(this);
 		tv_coin = (TextView) findViewById(R.id.tv_market_coin);
 		tv_coin.setOnClickListener(this);//user can press this to login
 		lv_chars = (ListView) findViewById(R.id.lv_market);
@@ -203,9 +206,7 @@ public class MarketActivity extends BaseActivity implements OnClickListener{
 				dismissPopupWindow();
 				View contentView = View.inflate(getApplicationContext(), R.layout.popup_market_item, null);
 				ll_buy = (LinearLayout) contentView.findViewById(R.id.ll_popup_buy);
-				ll_dl = (LinearLayout) contentView.findViewById(R.id.ll_popup_dl);
 				ll_buy.setOnClickListener(MarketActivity.this);
-				ll_dl.setOnClickListener(MarketActivity.this);
 				
 				LinearLayout ll_popup_cotainer = (LinearLayout) contentView.findViewById(R.id.ll_popup_market_container);
 				int top = view.getTop();
@@ -239,16 +240,6 @@ public class MarketActivity extends BaseActivity implements OnClickListener{
 				showBuyCharacterDialog();	
 			}
 			break;
-		case R.id.ll_popup_dl:
-			Log.i(TAG, "dl");
-			if(!isLogin){
-				Intent login = new Intent(MarketActivity.this,AtyLogin.class);
-				startActivityForResult(login,0);
-			}else {
-				dismissPopupWindow();
-				dlCharacter();
-			}
-			break;
 		case R.id.tv_market_coin:
 			if(!isLogin){
 			Intent login = new Intent(MarketActivity.this,AtyLogin.class);
@@ -261,6 +252,10 @@ public class MarketActivity extends BaseActivity implements OnClickListener{
 			break;
 		case R.id.btn_market_buydialog_cancel:
 			dialog.cancel();
+			break;
+		case R.id.tv_market_freecoin:
+			//TODO
+			
 			break;
 		}
 	}
@@ -332,16 +327,12 @@ public class MarketActivity extends BaseActivity implements OnClickListener{
 					if (file.exists() && file.isFile()) {
 						file.delete();
 					}
-					System.out.println("here1");
 					BufferedInputStream in = new BufferedInputStream(conn.getInputStream());
-					System.out.println("here3");
 					BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(file));
-					System.out.println("here2");
 					byte []buffer = new byte[1024];
 					int read = 0;
 					while ( (read = in.read(buffer)) > 0 ) {
 						out.write(buffer, 0, read);
-						System.out.println("READ:"+read+"\n");
 					}
 					out.close();
 					in.close();
@@ -352,13 +343,15 @@ public class MarketActivity extends BaseActivity implements OnClickListener{
 						msg.what = DL_CHARACTER_FAILURE;
 					}finally{
 						handler.sendMessage(msg);
+						
+						Message msg2 = Message.obtain();
 						if (msg.what == DL_CHARACTER_SUCCESS) {
 							try {
 								ZipTools.unzip(
 										Environment.getExternalStorageDirectory().toString()+"/"+clickedNo+".zip",
 										Environment.getExternalStorageDirectory().toString()+"/"+clickedNo+"/");
-								msg.what = INSTALL_CHARACTER_SUCCESS;
-								handler.sendMessage(msg);
+								msg2.what = INSTALL_CHARACTER_SUCCESS;
+								handler.sendMessage(msg2);
 							} catch (IOException e) {
 								e.printStackTrace();
 							}
@@ -431,14 +424,29 @@ public class MarketActivity extends BaseActivity implements OnClickListener{
 	}
 	
 	
+	@SuppressLint("NewApi")
 	private void loadUserData(){
 		new Thread(){
 			public void run() {
-				account = accountService.findByUsernameAndPassword(username, password).iterator().next();
-				Log.i(TAG, "load account info succedd");
 				Message msg = Message.obtain();
-				msg.what = LOAD_USER_DATA_DONE;
-				handler.sendMessage(msg);
+				try {
+					account = accountService.findByUsernameAndPassword(username, password).iterator().next();
+					Log.i(TAG, "load account info succedd");
+					msg.what = LOAD_USER_DATA_SUCCESS;
+					SharedPreferences sp = getSharedPreferences("USER_CHARACTERS", MODE_PRIVATE);
+					Editor editor = sp.edit();
+					//google guava provides us great tools :)
+					List<String> stringList = Lists.transform(account.getCharacters(), Functions.toStringFunction());
+					HashSet<String> set = new HashSet<String>(stringList);
+					editor.putStringSet("SET", set);	
+					editor.commit();
+					
+				} catch (Exception e) {
+					Log.d(TAG, "load account info failed");
+					msg.what = LOAD_USER_DATA_FAILURE;
+				}finally{
+					handler.sendMessage(msg);
+				}
 			};
 			
 		}.start();
@@ -460,15 +468,16 @@ public class MarketActivity extends BaseActivity implements OnClickListener{
 			case LOAD_CHARACTERS_FAILURE:
 				Toast.makeText(MarketActivity.this, "Fail to connect to server!", Toast.LENGTH_SHORT).show();
 				break;					
-			case LOAD_ONE_PIC:
-				
+			case LOAD_USER_DATA_FAILURE:
+				tv_coin.setText("Failed to load user's data.");
 				break;
-			case LOAD_USER_DATA_DONE:
+			case LOAD_USER_DATA_SUCCESS:
 				tv_coin.setText("You have "+account.getCoin()+" coins.\n");
 				break;
 			case BUY_CHARACTER_SUCCESS:
 				tv_coin.setText("You have "+account.getCoin()+" coins.\n");
 				Toast.makeText(MarketActivity.this, "Buy "+clickedName+" Succeed!", Toast.LENGTH_SHORT).show();
+				dlCharacter();
 				break;
 			case BUY_CHARACTER_FAILURE:	
 				Toast.makeText(MarketActivity.this, "Fail to buy new character!", Toast.LENGTH_SHORT).show();
