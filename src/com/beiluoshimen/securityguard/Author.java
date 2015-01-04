@@ -12,6 +12,10 @@ import com.beiluoshimen.securityguard.slideingmenu.BaseActivity;
  */
 public class Author extends BaseActivity{
 
+	public Author(){
+		super(R.string.title_author);
+		
+	}
 	public Author(int titleRes) {
 		super(R.string.title_author);
 	}
