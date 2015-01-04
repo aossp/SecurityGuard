@@ -117,6 +117,7 @@
     <string name="popup_market_buy">Buy</string>
     <string name="popup_market_download">Download</string>
     <string name="action_author">Author</string>
+    <string name="title_author">Author</string>
 
 
 </resources>

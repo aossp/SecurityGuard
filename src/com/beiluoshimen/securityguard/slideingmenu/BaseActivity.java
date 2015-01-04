@@ -1,24 +1,28 @@
 package com.beiluoshimen.securityguard.slideingmenu;
 
-import java.util.ArrayList;
-import java.util.List;
+
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.ListFragment;
-import android.support.v4.view.ViewPager;
 
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
+import com.beiluoshimen.securityguard.Author;
 import com.beiluoshimen.securityguard.R;
 import com.beiluoshimen.securityguard.settings.AtySettings;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.jeremyfeinstein.slidingmenu.lib.app.SlidingFragmentActivity;
-
+/**
+ * NOTE:All the activities that want to use sliding menu bar
+ * need to extends BaseActivity.
+ * 
+ * NOTE:Options items should be implemented in this class.
+ * 
+ * @author Hsieh Yu-Hua
+ * @date Jan 3, 20158:23:52 PM
+ */
 public class BaseActivity extends SlidingFragmentActivity {
 
 	//this title of slide
@@ -68,14 +72,12 @@ public class BaseActivity extends SlidingFragmentActivity {
 			toggle();
 			return true;
 		case R.id.menu_main_settings:
-			System.out.println("@@@@@@@@@@@@");
-//			toggle();
+			toggle();
 			startActivity(new Intent(this,AtySettings.class));
 			break;
 		case R.id.menu_main_author:
-			
-			
-			//TODO show author.
+			toggle();
+			startActivity(new Intent(this,Author.class));
 			break;
 
 		}

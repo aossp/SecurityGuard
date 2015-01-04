@@ -15,4 +15,7 @@ public interface DlSvcApi {
 	public static final String DL_102_PATH = DL_SVC_PATH + "/102.zip";
 	public static final String DL_103_PATH = DL_SVC_PATH + "/103.zip";
 	
+	public static final String DL_FREE_COIN = DL_SVC_PATH + "/freeCoin";
+
+	
 }

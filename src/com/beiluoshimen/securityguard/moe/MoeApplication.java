@@ -157,6 +157,8 @@ public class MoeApplication extends BaseActivity
 //      		};
 //      	}.start();
 		
+		
+		
 		//always update the list of user'scharacters in oncreate.
 		live2DMgr.updateList();
 		

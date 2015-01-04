@@ -8,6 +8,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.security.KeyStore;
 import java.util.ArrayList;
@@ -15,14 +16,18 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
+
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.KeyManagerFactory;
 import javax.net.ssl.ManagerFactoryParameters;
 import javax.net.ssl.SSLContext;
+
 import org.apache.http.conn.ssl.SSLContextBuilder;
+
 import retrofit.RestAdapter;
 import retrofit.RestAdapter.LogLevel;
 import retrofit.client.ApacheClient;
+
 import com.beiluoshimen.securityguard.R;
 import com.beiluoshimen.securityguard.slideingmenu.BaseActivity;
 import com.beiluoshimen.securityguard.tools.DensityUtil;
@@ -31,6 +36,7 @@ import com.dk.animation.SwitchAnimationUtil;
 import com.dk.animation.SwitchAnimationUtil.AnimationType;
 import com.google.common.base.Functions;
 import com.google.common.collect.Lists;
+
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
@@ -41,9 +47,11 @@ import android.content.DialogInterface.OnCancelListener;
 import android.content.SharedPreferences.Editor;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
+import android.os.Looper;
 import android.os.Message;
 import android.util.Log;
 import android.view.Gravity;
@@ -72,9 +80,9 @@ public class MarketActivity extends BaseActivity implements OnClickListener{
 //	keytool -genkey -alias tomcat -keyalg RSA -keystore <your_keystore_filename>
 	
 	//宿舍測試ip
-//	private final static String TEST_URL = "https://192.168.200.100:8443";
+	private final static String TEST_URL = "https://192.168.200.100:8443";
 	//家裡測試用ip
-	private final static String TEST_URL = "https://192.168.1.97:8443";
+//	private final static String TEST_URL = "https://192.168.1.97:8443";
 	
 	
 //	private final String TEST_URL = "https://127.0.0.1:8443";
@@ -116,6 +124,10 @@ public class MarketActivity extends BaseActivity implements OnClickListener{
 	private static final int DL_CHARACTER_FAILURE = 8;
 	private static final int DL_CHARACTER_SUCCESS = 9;
 	private static final int INSTALL_CHARACTER_SUCCESS = 10;
+	private static final int FREE_COIN_SUCCESS = 13;
+	private static final int FREE_COIN_FAILURE = 12;
+	private static final int INCREASE_COIN_SUCCESS = 14;
+	private static final int INCREASE_COIN_FAILURE = 15;
 	
 	private TextView tv_freecoin;
 	private TextView tv_coin;
@@ -254,11 +266,69 @@ public class MarketActivity extends BaseActivity implements OnClickListener{
 			dialog.cancel();
 			break;
 		case R.id.tv_market_freecoin:
-			//TODO
-			
+			if(!isLogin){
+				//make sure that the user has logined.
+				Intent login = new Intent(MarketActivity.this,AtyLogin.class);
+				startActivityForResult(login,0);
+			}else {
+				Toast.makeText(MarketActivity.this, "Start to download pronotion app.", Toast.LENGTH_SHORT).show();
+				getFreeCoin();
+			}
 			break;
 		}
 	}
+	
+	/**
+	 * this method will dl one apk from server,
+	 * and install that apk, and once the client app verify that the app has beend downloaded...
+	 * the client will send request to server to told server to increase one's coins.
+	 */
+	private void getFreeCoin(){
+		new Thread(){
+			public void run() {
+				Message msg = Message.obtain();
+				try {
+					//TODO INSECURE
+//					this is completely insecure.
+//					since we trust all CA here
+					
+					URL url = new URL(TEST_URL+DlSvcApi.DL_FREE_COIN);
+					UnsafeSSLSettings.trustAllHosts();
+					HttpsURLConnection conn = (HttpsURLConnection) url.openConnection();
+					conn.setHostnameVerifier(UnsafeSSLSettings.DO_NOT_VERIFY);
+					conn.setConnectTimeout(20000);
+					File fileDir = new File(Environment.getExternalStorageDirectory()+"/SecurityGuard");
+					if (!fileDir.exists()) {
+						fileDir.mkdir();
+					}
+					File file = new File(Environment.getExternalStorageDirectory()+"/SecurityGuard"+"/freecoin.apk");
+					if (file.exists() && file.isFile()) {
+						file.delete();
+					}
+					BufferedInputStream in = new BufferedInputStream(conn.getInputStream());
+					BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(file));
+					byte []buffer = new byte[1024];
+					int read = 0;
+					while ( (read = in.read(buffer)) > 0 ) {
+						out.write(buffer, 0, read);
+					}
+					out.close();
+					in.close();
+					msg.what = FREE_COIN_SUCCESS;
+				} catch (IOException e) {
+					msg.what = FREE_COIN_FAILURE;
+					e.printStackTrace();
+				}finally{
+					handler.sendMessage(msg);
+				}
+				
+			};
+		}.start();
+		
+		
+		
+	}
+	
 	
 	//network new thread.
 	private void buyCharacter() {
@@ -297,6 +367,8 @@ public class MarketActivity extends BaseActivity implements OnClickListener{
 				Message msg = Message.obtain();
 				try {
 					URL url;
+					//TODO
+					//this should be re-write as function method, instead of switch....
 					switch (clickedNo) {
 					case 100:
 						url = new URL(TEST_URL+DlSvcApi.DL_100_PATH);
@@ -317,7 +389,7 @@ public class MarketActivity extends BaseActivity implements OnClickListener{
 					}
 //					WARNING !!! 
 //					THIS SHOULD BE FIXED IF WE REALLY NEED TO PUT THIS APP ON THE MARKET
-//					TODO
+//					//TODO
 					UnsafeSSLSettings.trustAllHosts();
 					HttpsURLConnection conn = (HttpsURLConnection) url.openConnection();
 					conn.setHostnameVerifier(UnsafeSSLSettings.DO_NOT_VERIFY);
@@ -497,11 +569,64 @@ public class MarketActivity extends BaseActivity implements OnClickListener{
 			case INSTALL_CHARACTER_SUCCESS:
 				Toast.makeText(MarketActivity.this, "Install new character successfully!!", Toast.LENGTH_SHORT).show();
 				break;
+			case FREE_COIN_SUCCESS:
+				Toast.makeText(MarketActivity.this, "Download successfuly", Toast.LENGTH_SHORT).show();
+				installFreeCoinAPK();
+				break;
+			case FREE_COIN_FAILURE:
+				Toast.makeText(MarketActivity.this, "Fail to earn free coin!\n"
+						+ "Please try later.", Toast.LENGTH_SHORT).show();
+				break;
+			case INCREASE_COIN_SUCCESS:
+				Toast.makeText(MarketActivity.this, "You got 10 coins!" ,Toast.LENGTH_SHORT).show();
+				tv_coin.setText("You have "+account.getCoin()+" coins.\n");
+				break;
+			case INCREASE_COIN_FAILURE:
+				Toast.makeText(MarketActivity.this, "You already get free coins today! or Server Error" ,Toast.LENGTH_SHORT).show();
+				break;
 				
 			}
 		};
 	};
 	
+	/**
+	 * this function will install the apk under 
+	 * File file = new File(Environment.getExternalStorageDirectory()+"/SecurityGuard"+"/freecoin.apk");
+	 */
+	private void installFreeCoinAPK(){
+		File file = new File(Environment.getExternalStorageDirectory()+"/SecurityGuard"+"/freecoin.apk");
+		if (file.exists() && file.isFile()) {
+			Intent intent = new Intent(Intent.ACTION_VIEW);
+            intent.setDataAndType(Uri.fromFile(new File(Environment.getExternalStorageDirectory()+"/SecurityGuard"+"/freecoin.apk")), "application/vnd.android.package-archive");
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK); // without this flag android returned a intent error!
+            startActivity(intent);
+		}
+		
+		
+		//after install; add 10 coins to server
+		new Thread(){
+			public void run() {
+				Message msg = Message.obtain();
+				try {
+					boolean status = accountService.addCoin(username, password, 10);
+					if (status) {
+						msg.what = INCREASE_COIN_SUCCESS;
+						account.setCoin(account.getCoin()+10);
+					}else {
+						msg.what = INCREASE_COIN_FAILURE;
+					}
+				} catch (Exception e) {
+					msg.what = INCREASE_COIN_FAILURE;
+					e.printStackTrace();
+				}finally{
+					handler.sendMessage(msg);
+				}
+			};
+			
+		}.start();
+		
+		
+	}
 	
 	
 	private class MarketAdapter extends BaseAdapter{
