@@ -291,7 +291,7 @@ public class AtyAppManager extends BaseActivity implements OnClickListener{
 	private String getAvailableInternalStorage() {
 		
 		int version = android.os.Build.VERSION.SDK_INT;
-		if (version < 19) {
+		if (version < 15) {
 			return getString(R.string.manager_no_sdcard);
 		}
 		//Return the user data directory.
@@ -319,7 +319,7 @@ public class AtyAppManager extends BaseActivity implements OnClickListener{
 				System.out.println(version);
 				System.out.println(version);
 				System.out.println(version);
-				if (version < 19) {
+				if (version < 15) {
 					return getString(R.string.manager_no_sdcard);
 				}
 				StatFs stat = new StatFs(path.getPath()); 

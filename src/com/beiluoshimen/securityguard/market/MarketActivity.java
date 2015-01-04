@@ -431,7 +431,10 @@ public class MarketActivity extends BaseActivity implements OnClickListener{
 						
 					}
 			}
-		}.start();	
+		}.start();
+		
+		//update users model list in sp and others.
+		loadUserData();
 	}
 		
 	private void dismissPopupWindow() {
@@ -505,6 +508,8 @@ public class MarketActivity extends BaseActivity implements OnClickListener{
 					account = accountService.findByUsernameAndPassword(username, password).iterator().next();
 					Log.i(TAG, "load account info succedd");
 					msg.what = LOAD_USER_DATA_SUCCESS;
+					
+					//save users model list in sp.
 					SharedPreferences sp = getSharedPreferences("USER_CHARACTERS", MODE_PRIVATE);
 					Editor editor = sp.edit();
 					//google guava provides us great tools :)
