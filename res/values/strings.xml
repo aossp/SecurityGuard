@@ -119,5 +119,7 @@
     <string name="action_author">Author</string>
     <string name="title_author">Author</string>
 
+    <!--AtyGesture Lock  -->
+    <string name="title_activity_aty_gesturelock">AtyGesturelockActivity</string>
 
 </resources>

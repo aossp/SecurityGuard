@@ -32,11 +32,12 @@
             android:name=".AtySplash"
             android:label="@string/app_name"
             android:screenOrientation="portrait" >
-            <intent-filter>
+             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+           
         </activity>
         <activity
             android:name=".moe.MoeApplication"
@@ -163,6 +164,22 @@
                 android:name="android.service.wallpaper"
                 android:resource="@xml/wallpaper" />
         </service>
+
+        <!-- Gesture lock -->
+        <activity
+            android:name="com.beiluoshimen.securityguard.lockui.GestureLockAty"
+            android:label="@string/app_name" >
+        </activity>
+        <activity
+            android:name="com.beiluoshimen.securityguard.lockui.GestureLockAty2"
+            android:excludeFromRecents="true"
+            android:launchMode="singleInstance"
+            android:label="@string/app_name" >
+        </activity>
+        <activity
+            android:name="com.beiluoshimen.securityguard.lockui.BAty"
+            android:label="@string/app_name" >
+        </activity>
     </application>
 
 </manifest>

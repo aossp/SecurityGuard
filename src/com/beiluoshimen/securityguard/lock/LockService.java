@@ -3,6 +3,8 @@ package com.beiluoshimen.securityguard.lock;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.beiluoshimen.securityguard.lockui.GestureLockAty2;
+
 import android.app.ActivityManager;
 import android.app.Service;
 import android.app.ActivityManager.RunningTaskInfo;
@@ -107,7 +109,7 @@ public class LockService extends Service{
 		lockPackNames = db.findAll();
 		
 		//the intent used to start PasswordEnterUI activity
-		passIntent = new Intent(this,PassEnterActivity.class);
+		passIntent = new Intent(this,GestureLockAty2.class);
 		//If set, this activity will become the start of a new task on this history stack
 		// because service activity(LockService doesn't have task stack)!
 		passIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

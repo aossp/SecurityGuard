@@ -46,4 +46,11 @@
  	<color name="color_remind">#3dce70</color>
     <color name="color_setting">#40e0d0</color>
     
+    
+    <!--gesture lock -->
+     <color name="bg_color">#f3f3f3</color>
+    <color name="str_color_gray">#999999</color>
+    <color name="str_color_black">#333333</color>
+    <color name="str_color_blue">#5c92fa</color>
+    
 </resources>

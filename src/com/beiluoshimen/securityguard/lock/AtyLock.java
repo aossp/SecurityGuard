@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.beiluoshimen.securityguard.R;
 import com.beiluoshimen.securityguard.antitheft.AtyAntitheft;
+import com.beiluoshimen.securityguard.lockui.GestureLockAty;
 import com.beiluoshimen.securityguard.slideingmenu.BaseActivity;
 import com.dk.animation.SwitchAnimationUtil;
 import com.dk.animation.SwitchAnimationUtil.AnimationType;
@@ -122,7 +123,7 @@ public class AtyLock extends BaseActivity implements OnCheckedChangeListener{
 		sp = getSharedPreferences(getString(R.string.sp_config), MODE_PRIVATE);
 		if (!passwordIsSet()) {
 			Toast.makeText(this,R.string.lock_you, Toast.LENGTH_SHORT).show();;
-			startActivity(new Intent(this, AtyAntitheft.class));
+			startActivity(new Intent(this, GestureLockAty.class));
 			overridePendingTransition(R.anim.tran_in, R.anim.tran_out);
 			finish();
 		}
@@ -202,7 +203,7 @@ public class AtyLock extends BaseActivity implements OnCheckedChangeListener{
 		
 	};
 	private boolean passwordIsSet() {
-		String pass = sp.getString(getString(R.string.sp_password), "");
+		String pass = sp.getString("drawKey", "");
 		if (TextUtils.isEmpty(pass)) {
 			return false;
 		}else {
