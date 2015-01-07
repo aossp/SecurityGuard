@@ -32,13 +32,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
-            android:text="Github:"
+            android:text="Github:https://github.com/BeiLuoShiMen"
             android:textColor="#AAAAAA" />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
         android:paddingTop="10dp" >
 
@@ -46,22 +46,43 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
-            android:text="Author:HsiehYuHua"
+            android:text="Author:王祥至"
             android:textColor="#AAAAAA" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
-            android:text="Email:beiluo.shimen@icloud.com"
+            android:text="Email:jeffrey40501@yahoo.com.tw"
+            android:textColor="#AAAAAA" />
+
+
+    </LinearLayout>
+    
+        <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingTop="10dp" >
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:text="Special Thanks to:\n"
             android:textColor="#AAAAAA" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
-            android:text="Github:"
+            android:text="Live2D Inc.
+http://www.live2d.com\n
+https://github.com/jfeinstein10/SlidingMenu\n
+https://github.com/dkmeteor/SmoothTransition\n"
             android:textColor="#AAAAAA" />
+
+
     </LinearLayout>
 
 </LinearLayout>

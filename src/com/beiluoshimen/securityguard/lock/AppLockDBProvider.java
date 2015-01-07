@@ -7,7 +7,11 @@ import android.content.UriMatcher;
 import android.database.Cursor;
 import android.net.Uri;
 /**
+ * Use this class use Android built in SQLite to store all the app
+ * that user choosen to lock in App-Lock Activity with AppLockDB.
  * 
+ * Note , we use ContentProvider, so this class can be registered.
+ * which means, if something is changed in DB, we can notify to registor.
  * 
  * @author Hsieh Yu-Hua
  * @date 2014年11月23日下午2:01:10

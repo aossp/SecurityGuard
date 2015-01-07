@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#222222"
+    android:orientation="vertical" >
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="Download ad-app?\n"
+             android:textColor="#AAAAAA"
+        android:textSize="24sp" />
+
+
+    
+    <TextView 
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+        
+        android:text="You can earn free coin \nby downloading ad-app."
+        android:textColor="#AAAAAA"
+        android:textSize="17sp"/>
+    <LinearLayout
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <!--
+        <Button
+            android:id="@+id/btn_dialog_normal_confirm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/at_confirm" />
+
+        <Button
+            android:id="@+id/btn_dialog_normal_cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/at_cancel" />
+        -->
+
+        <ImageButton
+            android:id="@+id/btn_market_freecoin_dialog_confirm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:backgroundTint="#000000"
+            android:src="@drawable/click_yes"
+             />
+
+        <ImageButton
+            android:id="@+id/btn_market_freecoin_dialog_cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:backgroundTint="#000000"
+            android:src="@drawable/ckick_no"
+             />
+    </LinearLayout>
+
+</LinearLayout>

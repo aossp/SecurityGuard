@@ -12,7 +12,12 @@ import android.content.pm.PackageStats;
 import android.os.Environment;
 import android.os.StatFs;
 import android.text.format.Formatter;
-
+/**
+ * 
+ * This is a Tool class,
+ * which make retrieve all the apps installed on phone easily. 
+ * @author Hsieh Yu-Hua
+ */
 public class AppInfoProvider {
 	//use packagemanager to fetch all the infos regarding to apps installed on device
 	private PackageManager pm;

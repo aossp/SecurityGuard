@@ -1,5 +1,9 @@
 package com.beiluoshimen.securityguard.contacts;
-
+/**
+ * 
+ * Contact Information
+ * @author Hsieh Yu-Hua
+ */
 public class ContactInfo {
 	private String name;
 	private String phone;

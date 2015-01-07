@@ -12,7 +12,7 @@ import retrofit.RestAdapter.LogLevel;
 import retrofit.client.ApacheClient;
 
 public class AccountSvcClientApiTest {
-	private final String TEST_URL = "https://localhost:8443";
+	private final String TEST_URL = Config.TEST_URL;
 
 	private AccountSvcApi accountService = new RestAdapter.Builder()
 	.setClient(new ApacheClient(UnsafeHttpsClient.createUnsafeClient()))

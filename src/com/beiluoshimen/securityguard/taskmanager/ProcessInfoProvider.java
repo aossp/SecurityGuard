@@ -9,7 +9,10 @@ import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
-
+/**
+ * @author Hsieh Yu-Hua
+ * @date Jan 7, 20156:50:06 PM
+ */
 //Learning "Context"
 //Class Overview
 //Interface to global information about an application environment. This is an abstract class 

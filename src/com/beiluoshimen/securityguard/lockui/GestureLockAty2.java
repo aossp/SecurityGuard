@@ -38,29 +38,18 @@ import android.widget.TextView;
 
 
 public class GestureLockAty2 extends Activity implements OnClickListener {
-    // 底部
     private RelativeLayout rel_botton;
-    // 提示信息
     private TextView tv_message;
-    // 绘制手势的控件
     private GestureLockView gv;
-    // 绘制错误时候的动画
     private Animation animation;
-
-    private String drawKey;// 绘制图形的key
-
+    private String drawKey;
     private boolean isSetting;
-
     private SharedPreferences preferences = null;
     private Editor editor;
     private Button btn_onDraw, btn_finishDraw;
-    //忘记密码
     private TextView tv_forget_password;
-
-    private int index = 0;// 标记当前绘制了几次
-
+    private int index = 0;
     private Context context;
-    //当前已经绘制的手势 提示
     private GridView gv_lock;
 
     private LockAdapter lockAdapter;
@@ -136,7 +125,6 @@ public class GestureLockAty2 extends Activity implements OnClickListener {
         if (drawKey == null && "".equals(drawKey)) {
             gv.setResult(true);
         }
-        //如果是从设置揭界面进来的隐藏掉忘记密码
         if (isSetting) {
             gv.setKey("");
             tv_forget_password.setVisibility(View.GONE);
@@ -156,9 +144,7 @@ public class GestureLockAty2 extends Activity implements OnClickListener {
         btn_onDraw.setOnClickListener(this);
         btn_finishDraw.setOnClickListener(this);
         tv_forget_password.setOnClickListener(this);
-        //绘制手势的监听
         gv.setOnGestureFinishListener(new OnGestureFinishListener() {
-            //success绘制状态 key绘制的密码
             @Override
             public void OnGestureFinish(boolean success, String key) {
                 Log.i("Log", success+"    "+key);
@@ -204,7 +190,6 @@ public class GestureLockAty2 extends Activity implements OnClickListener {
     public void onClick(View v) {
         // TODO Auto-generated method stub
         switch (v.getId()) {
-            //重绘时把所有数据还原
             case R.id.btn_onDraw:
                 rel_botton.setVisibility(View.GONE);
                 drawKey = "";

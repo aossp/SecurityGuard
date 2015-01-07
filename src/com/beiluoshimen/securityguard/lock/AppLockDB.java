@@ -6,7 +6,11 @@ import java.util.List;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-
+/**
+ * use Android built in SQLite to store all the app
+ * that user choosen to lock in App-Lock Activity. 
+ * @author Hsieh Yu-Hua
+ */
 public class AppLockDB {
 	private AppLockDBOpenHelper helper;
 	public AppLockDB(Context context){

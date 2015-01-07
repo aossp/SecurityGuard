@@ -11,6 +11,14 @@ import android.telephony.SmsManager;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 
+/**
+ * This BroadcastReceiver does the following 2 things
+ * when the phone is reboot(restart)
+ * 1. check if the SIM card lock is on? if it's on , check if the sim serial is the same or not.
+ * 2. check if the App-Lock service is set to auto-turn on, if it's on, turn LockService on.
+ * 
+ * @author Hsieh Yu-Hua
+ */
 public class BrBoot extends BroadcastReceiver{
 	private static final String TAG = "BrBoot";
 	

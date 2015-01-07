@@ -80,7 +80,7 @@ public class MarketActivity extends BaseActivity implements OnClickListener{
 //	keytool -genkey -alias tomcat -keyalg RSA -keystore <your_keystore_filename>
 	
 	//宿舍測試ip
-	private final static String TEST_URL = "https://192.168.200.100:8443";
+	private final static String TEST_URL = Config.TEST_URL;
 	//家裡測試用ip
 //	private final static String TEST_URL = "https://192.168.1.97:8443";
 	
@@ -271,9 +271,18 @@ public class MarketActivity extends BaseActivity implements OnClickListener{
 				Intent login = new Intent(MarketActivity.this,AtyLogin.class);
 				startActivityForResult(login,0);
 			}else {
-				Toast.makeText(MarketActivity.this, "Start to download pronotion app.", Toast.LENGTH_SHORT).show();
-				getFreeCoin();
+				//ask the user , if he want to dl promotion app.
+				showFreeCoinDialog();
+			
 			}
+			break;
+		case R.id.btn_market_freecoin_dialog_cancel:
+			dialog.cancel();
+			break;
+		case R.id.btn_market_freecoin_dialog_confirm:
+			Toast.makeText(MarketActivity.this, "Start to download pronotion app.", Toast.LENGTH_SHORT).show();
+			getFreeCoin();
+			dialog.dismiss();
 			break;
 		}
 	}
@@ -469,6 +478,29 @@ public class MarketActivity extends BaseActivity implements OnClickListener{
 		dialog.show();
 	}
 	
+	void showFreeCoinDialog(){
+		AlertDialog.Builder builder = new Builder(this);
+//		use inflator to inflate an alert dialog
+		View view = View.inflate(this, R.layout.market_freecoin_dialog, null);
+		btnBuyConfirm = (ImageButton) view.findViewById(R.id.btn_market_freecoin_dialog_confirm);
+		btnBuyCancel = (ImageButton) view.findViewById(R.id.btn_market_freecoin_dialog_cancel);
+		btnBuyCancel.setOnClickListener(this);
+		btnBuyConfirm.setOnClickListener(this);
+		
+		// add the view above to the builder
+		builder.setView(view);
+		//create the dialog by builder
+		dialog = builder.create();
+		//if we don't set this listener ,we will....
+		dialog.setOnCancelListener(new OnCancelListener() {
+			
+			@Override
+			public void onCancel(DialogInterface arg0) {
+			//do nothing ,	
+			}
+		});
+		dialog.show();
+	}
 
 	private void loadCharacters(){
 		new Thread(){

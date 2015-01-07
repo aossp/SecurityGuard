@@ -16,7 +16,11 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Toast;
-
+/**
+ * 
+ * This activity guides the user to setup the aiti-theft function .
+ * @author Hsieh Yu-Hua
+ */
 public class AtySetup2 extends Activity implements OnClickListener{
 	private ImageButton ib_bind;
 	private Button btn_next2,btn_prev2;

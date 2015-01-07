@@ -15,7 +15,11 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-
+/**
+ *  * This activity guides the user to setup the aiti-theft function .
+ * 
+ * @author Hsieh Yu-Hua
+ */
 public class AtySetup3 extends Activity implements OnClickListener{
 	private EditText et_safe_num;
 	private Button btn_select_contacts,btn_next3,btn_prev3;

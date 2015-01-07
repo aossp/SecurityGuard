@@ -12,8 +12,15 @@ import android.app.Service;
 import android.content.Intent;
 import android.os.Binder;
 import android.os.IBinder;
+import android.util.Log;
 
-
+/**
+ * An service used to kill All app that is currently running. 
+ * Those Activities want to use this class as tool to kill app, need to bind this Service.
+ * and this service will return MyBinder, which has our Callback to use.
+ * 
+ * @author Hsieh Yu-Hua
+ */
 
 public class CleanService extends Service{
 	private MyBinder binder;
@@ -24,9 +31,13 @@ public class CleanService extends Service{
 	private long memsize;
 	private MemInfo memInfo;
 	
+	
+	private static final String TAG = "CleanService";
 	@Override
 	public void onCreate() {
 		super.onCreate();
+		Log.d(TAG, "CleanService on create.");
+		
 		provider = new ProcessInfoProvider(getApplicationContext());
 		userInfos = new ArrayList<ProcessInfo>();
 		count = 0;
@@ -37,6 +48,7 @@ public class CleanService extends Service{
 
 		@Override
 		public MemInfo onCallClean() {
+			Log.d(TAG, "Cleanservice onCallClean");
 			//get all the users info
 			processInfos = provider.getProcessInfos();
 			for (ProcessInfo info : processInfos) {
@@ -68,6 +80,7 @@ public class CleanService extends Service{
 	
 	@Override
 	public IBinder onBind(Intent intent) {
+		Log.d(TAG, "Cleanservice onBind");
 		binder = new MyBinder();
 		return binder;
 	}

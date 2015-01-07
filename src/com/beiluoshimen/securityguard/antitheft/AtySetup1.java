@@ -10,7 +10,11 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
-
+/**
+ * 
+ *  * This activity guides the user to setup the aiti-theft function .
+ * @author Hsieh Yu-Hua
+ */
 public class AtySetup1 extends Activity implements OnClickListener{
 	Button btnNext1;
 	@Override

@@ -35,15 +35,15 @@ public class Live2DRenderer implements GLWallpaperService.Renderer
 	L2DTargetPoint dragMgr;
 	L2DPhysics physics;
 
-	final String MODEL_PATH = "live2d/haru/haru_01.moc" ;
+	final String MODEL_PATH = "live2d/epsilon/Epsilon.moc" ;
 	final String TEXTURE_PATHS[] =
 		{
-			"live2d/haru/haru_01.1024/texture_00.png" ,
-			"live2d/haru/haru_01.1024/texture_01.png" ,
-			"live2d/haru/haru_01.1024/texture_02.png"
+			"live2d/epsilon/Epsilon.1024/texture_00.png" ,
+			"live2d/epsilon/Epsilon.1024/texture_01.png" ,
+			"live2d/epsilon/Epsilon.1024/texture_02.png"
 		} ;
-	final String MOTION_PATH="live2d/haru/motions/idle_01.mtn";
-	final String PHYSICS_PATH="live2d/haru/haru.physics.json";
+	final String MOTION_PATH="live2d/epsilon/motions/Epsilon_idle_01.mtn";
+	final String PHYSICS_PATH="live2d/epsilon/Epsilon.physics.json";
 	
 //	final String MODEL_PATH = "live2d/epsilon/Epsilon.moc" ;
 //	final String TEXTURE_PATHS[] =

@@ -21,7 +21,35 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
+/**
+ * 
+ * This class is used to verify the password if the App-lock service is turn on.
+ * 
+ * 
+ * this Activity will be created by LockService.
+ * if LockService detect the app that is locked is open.
+ * 
+ * !!!Note:This class is now useless and substitute by " GestureLockAty2"
+ * since we no longer verify user's password but user's gesture.
+ * 
+ * 
+ * @see "" Must see ""
+ * !!Important!!: this project co-author "jeffrey40501" is in charge of the whole package of
+ * com.beiluoshimen.securityguard.lockui, which comprises of GestureLockAty2.
+ * (That package is related to AppLock Gesture UI )
+ * 
+ * But it seems like that >> his code is not written on his own << and
+ * it is "copy-paste" from other unknown author.
+ * 
+ * and the code in "com.beiluoshimen.securityguard.lockui" is totally disastrous.
+ * So, it is recommend to ""re-write the whole code"" in
+ * com.beiluoshimen.securityguard.lockui package.
+ * 
+ * Caveat : NEVER COLLABORATE WITH SOMEONE WHO IS TOTALLY NOOB IN YOUR PROJECT.
+ * HE WILL MEES UP YOUR WHOLE PROJECT.  :(  
+ * 
+ * @author Hsieh Yu-Hua
+ */
 public class PassEnterActivity extends Activity implements OnClickListener{
 	private EditText et_pass;
 	private TextView tv_name;

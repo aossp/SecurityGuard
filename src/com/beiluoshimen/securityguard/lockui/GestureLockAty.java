@@ -32,31 +32,19 @@ import android.widget.TextView;
 
 
 public class GestureLockAty extends Activity implements OnClickListener {
-    // 底部
     private RelativeLayout rel_botton;
-    // 提示信息
     private TextView tv_message;
-    // 绘制手势的控件
     private GestureLockView gv;
-    // 绘制错误时候的动画
     private Animation animation;
-
-    private String drawKey;// 绘制图形的key
-
+    private String drawKey;
     private boolean isSetting;
-
     private SharedPreferences preferences = null;
     private Editor editor;
     private Button btn_onDraw, btn_finishDraw;
-    //忘记密码
     private TextView tv_forget_password;
-
-    private int index = 0;// 标记当前绘制了几次
-
+    private int index = 0;
     private Context context;
-    //当前已经绘制的手势 提示
     private GridView gv_lock;
-
     private LockAdapter lockAdapter;
 
     @Override
