@@ -37,8 +37,6 @@ it is a complete "copy-paste" from unknown source.
 So the code in package - "com.beiluoshimen.securityguard.lockui" is totally disastrous.
 It is recommend to "re-write the whole code" in com.beiluoshimen.securityguard.lockui package.
 
-Caveat : NEVER COLLABORATE WITH SOMEONE WHO IS TOTALLY NOOB IN YOUR PROJECT.
-HE WILL REALLY MEES UP YOUR WHOLE PROJECT.  :(  
 
 If any code in this package - com.beiluoshimen.securityguard.lockui infringe your legal rights.
 Please contact the project manager : beiluo.shimen@icloud.com and I will delete it immediately.
