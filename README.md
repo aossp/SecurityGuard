@@ -1,9 +1,9 @@
 ##SecurityGuard
 This is an android application which has functions to make user’s cellphone much more safer in security, and brings conveniences to manage one’s cellphone, i.e., memory clean, app management.
 
-In order to make this app much more intriguing, we also use Live2D Inc. SDK in the app, which make user be able to have interactive action with anime character and clean memory.
+In order to make this app much more intriguing, I also use Live2D Inc. SDK in the app, which make user be able to have interactive action with anime character and clean memory.
 
-Besides, we add an market to make users be able to use coins to download new Live 2D’s theme to add into their app. Coins can be collected by downloading recommended app
+Besides, I add an market to make users be able to use coins to download new Live 2D’s theme to add into their app. Coins can be collected by downloading recommended app
 
 
 ## Running the Application
@@ -31,12 +31,9 @@ To run this application, you will need to launch the Server First.
   (which makes passes at compilers).
 
 ##Caveat 
-It seems like that one of our project member code is not written on his own and
-it is a complete "copy-paste" from unknown source.
-
-So the code in package - "com.beiluoshimen.securityguard.lockui" is totally disastrous.
-It is recommend to "re-write the whole code" in com.beiluoshimen.securityguard.lockui package.
-
+One of my project teammate who wrote the code of "com.beiluoshimen.securityguard.lockui" was just copy-pasting.
+The code in package - "com.beiluoshimen.securityguard.lockui" is totally disastrous.
+It is recommend to "re-write" the whole code in com.beiluoshimen.securityguard.lockui package.
 
 If any code in this package - com.beiluoshimen.securityguard.lockui infringe your legal rights.
-Please contact the project manager : beiluo.shimen@icloud.com and I will delete it immediately.
+Please contact the project manager(me) : beiluo.shimen@icloud.com and I will delete it immediately.
