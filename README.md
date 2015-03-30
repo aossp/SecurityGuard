@@ -1,3 +1,10 @@
+![](http://niconiconi.info/wp-content/uploads/2015/01/securegurad-6.png)![](http://niconiconi.info/wp-content/uploads/2015/01/securegurad-7.png)
+![](http://niconiconi.info/wp-content/uploads/2015/01/securegurad-8.png)![](http://niconiconi.info/wp-content/uploads/2015/01/securegurad-9.png)
+![](http://niconiconi.info/wp-content/uploads/2015/01/securegurad-5.png)![](http://niconiconi.info/wp-content/uploads/2015/01/securegurad-4.png)
+![](http://niconiconi.info/wp-content/uploads/2015/01/securegurad-3.png)![](http://niconiconi.info/wp-content/uploads/2015/01/securegurad-2.png)
+![](http://niconiconi.info/wp-content/uploads/2015/01/securegurad-1.png)
+
+
 ##SecurityGuard
 This is an android application which has functions to make user’s cellphone much more safer in security, and brings conveniences to manage one’s cellphone, i.e., memory clean, app management.
 
