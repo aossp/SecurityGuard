@@ -18,29 +18,12 @@ Besides, I add an market to make users be able to use coins to download new Live
 __Read this First__
 To run this application, you will need to launch the Server First.
  
-## License - GPL
+## License - Special License
 
-  This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+  This is not a free open source project. It is only a portfolio.
+  You are not allowed to use any code here in any other project.
+  The author claims the whole copyright interest in the program.
     
 ##Author 
   Hsieh Yu-Hua, hereby disclaims all copyright interest in the program “SecurityGuard” 
   (which makes passes at compilers).
-
-##Caveat 
-One of my project teammate who wrote the code of "com.beiluoshimen.securityguard.lockui" was just copy-pasting.
-The code in package - "com.beiluoshimen.securityguard.lockui" is totally disastrous.
-It is recommend to "re-write" the whole code in com.beiluoshimen.securityguard.lockui package.
-
-If any code in this package - com.beiluoshimen.securityguard.lockui infringe your legal rights.
-Please contact the project manager(me) : beiluo.shimen@icloud.com and I will delete it immediately.
